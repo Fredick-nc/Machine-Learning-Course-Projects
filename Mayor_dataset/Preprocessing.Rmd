@@ -1,0 +1,54 @@
+---
+title: "Machine Learning Project"
+author: "Cheng Nie"
+date: "2021/6/13"
+output: html_document
+---
+设置路径读取数据
+```{r}
+setwd("mayor")
+rm(list=ls())
+library(R.matlab)
+XX = readMat('X.mat',encoding = "UTF-8")
+#XX = read.table("X.txt",sep=",");
+x = XX$x
+x = as.matrix(x)
+#将x数据变为数据框
+data = data.frame(x)
+dim(x)
+#读取y数据
+y = read.table('Y.txt',sep = '\t',header = TRUE)
+#将y数据和x数据整合到一起
+data = data.frame(y,data)
+```
+```{r}
+#设置随机数种子
+set.seed(20210528)
+```
+
+
+```{r}
+#划分训练集和测试集
+sub = sample(1:nrow(x),round(nrow(x)*0.8))
+train = data[sub,]#取80%的数据做训练集
+test = data[-sub,]
+dim(train)
+dim(test)
+```
+```{r}
+write.csv(data,file = "data.csv",row.names = F)
+```
+
+```{r}
+write.csv(train,file = "train.csv",row.names = F)
+```
+
+```{r}
+write.csv(test,file = "test.csv",row.names = F)
+```
+
+
+
+
+
+
